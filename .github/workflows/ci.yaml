@@ -20,9 +20,9 @@ jobs:
           status: in_progress
       - name: Wait
         id: generate_tag
-        steps:
-          - sleep 20
-          - echo "DEV_TAG_NAME=0.8.5-rc.1234abcd" >> $GITHUB_OUTPUT
+        run: |
+          sleep 20
+          echo "DEV_TAG_NAME=0.8.5-rc.1234abcd" >> $GITHUB_OUTPUT
       - name: Generate Output
         uses: LouisBrunner/checks-action@v1.6.2
         if: always()
