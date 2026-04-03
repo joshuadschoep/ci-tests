@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Calculate Short SHA
         id: vars
-        run: echo "sha_short=$(github.event.pull_request.head.sha)" >> $GITHUB_OUTPUT
+        run: echo "sha_short=${{ github.event.pull_request.head.sha }} >> $GITHUB_OUTPUT
   package:
     name: Package ${{ needs.setup.outputs.sha_short }}
     needs: setup
