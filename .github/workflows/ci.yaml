@@ -11,11 +11,25 @@ jobs:
       checks: write
       contents: read
     steps:
-      - name: Generate Output
-        uses: LouisBrunner/checks-action@v1.6.2
+      - name: Create package PR checks entry
+        uses: LouisBrunner/checks-action@v3.1.0
+        id: release_candidate_check
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Latest Release Candidate Generated
+          name: Generating release candidate version
+          status: in_progress
+      - name: Wait
+        id: generate_tag
+        steps:
+          - sleep 20
+          - echo "DEV_TAG_NAME=0.8.5-rc.1234abcd" >> $GITHUB_OUTPUT
+      - name: Generate Output
+        uses: LouisBrunner/checks-action@v1.6.2
+        if: always()
+        check_id: ${{ steps.release_candidate_check.outputs.check_id }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Release Candidate ${{ steps.generate_tag.outputs.DEV_TAG_NAME }}
           conclusion: ${{ job.status }}
           output: |
             {"summary": "Created release candidate @fnb/fnb-lib@0.8.5"}
