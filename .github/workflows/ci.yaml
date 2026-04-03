@@ -32,4 +32,7 @@ jobs:
           # name: Release Candidate ${{ steps.generate_tag.outputs.DEV_TAG_NAME }}
           conclusion: ${{ job.status }}
           output: |
-            {"title": "Release Candidate ${{ steps.generate_tag.outputs.DEV_TAG_NAME }}" }
+            {
+              "title": "Release Candidate ${{ steps.generate_tag.outputs.DEV_TAG_NAME }}",
+              "summary": "Release Candidate ${{ steps.generate_tag.outputs.DEV_TAG_NAME }}"
+            }
