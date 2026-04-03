@@ -7,6 +7,9 @@ jobs:
   package:
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
+    permissions:
+      checks: write
+      contents: read
     steps:
       - name: Generate Output
         uses: LouisBrunner/checks-action@v1.6.2
