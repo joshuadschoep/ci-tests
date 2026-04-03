@@ -4,7 +4,17 @@ on:
     branches: [main]
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      sha_short: ${{ steps.vars.outputs.sha_short }}
+    steps:
+      - name: Calculate Short SHA
+        id: vars
+        run: echo "sha_short=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
   package:
+    name: Package ${{ needs.setup.outputs.sha_short }}
+    needs: setup
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
     permissions:
