@@ -36,6 +36,6 @@ jobs:
           conclusion: ${{ job.status }}
           output: |
             {
-              "title": "Release Candidate Generated",
+              "title": "@fnb/fnb-lib@${{ steps.generate_tag.outputs.DEV_TAG_NAME }}",
               "summary": "A release candidate version has been created from HEAD. If not, check job logs for the failure reason. Install this release with\n\n```bash\n\nnpm install @fnb/fnb-lib@${{ steps.generate_tag.outputs.DEV_TAG_NAME }}\n```"
             }
