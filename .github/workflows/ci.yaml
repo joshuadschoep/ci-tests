@@ -4,23 +4,16 @@ on:
     branches: [main]
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      sha_short: ${{ steps.vars.outputs.sha_short }}
-    steps:
-      - name: Calculate Short SHA
-        id: vars
-        run: echo "sha_short="$( echo "${{ github.event.pull_request.head.sha }}" | cut-c1-7 )"" >> $GITHUB_OUTPUT
   package:
-    name: Package ${{ needs.setup.outputs.sha_short }}
-    needs: setup
+    name: Package
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
     permissions:
       checks: write
       contents: read
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       # - name: Create package PR checks entry
       #   uses: LouisBrunner/checks-action@v3.1.0
       #   id: release_candidate_check
@@ -32,7 +25,7 @@ jobs:
         id: generate_tag
         run: |
           sleep 5
-          echo "DEV_TAG_NAME=0.8.5-rc.1234abcd" >> $GITHUB_OUTPUT
+          echo "DEV_TAG_NAME=0.8.5-rc.$( git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Generate Output
         uses: LouisBrunner/checks-action@v1.6.2
         if: always()
