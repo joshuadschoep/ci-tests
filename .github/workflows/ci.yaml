@@ -1,0 +1,18 @@
+name: Create Development Package
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - name: Generate Output
+        uses: LouisBrunner/checks-action@v1.6.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Latest Release Candidate Generated
+          conclusion: ${{ job.status }}
+          output: |
+            {"summary": "Created release candidate @fnb/fnb-lib@0.8.5"}
